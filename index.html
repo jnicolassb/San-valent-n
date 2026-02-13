@@ -587,9 +587,127 @@
       .timeline-arrow.next { right: 8px; }
       .timeline-bar { bottom: 24px; width: min(560px, calc(100% - 32px)); }
     }
+
+    /* Login overlay */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(160deg, #1a0a12 0%, #2d1b2e 50%, #1a1625 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 1.4s ease, visibility 1.4s ease;
+    }
+
+    .login-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-overlay.hidden {
+      display: none;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1.2s ease;
+    }
+
+    .login-overlay.fade-out .login-card {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    /* Content reveal cuando se desbloquea */
+    .container,
+    .scattered-hearts {
+      transition: opacity 1.2s ease 0.3s, transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+    }
+
+    body:not(.unlocked) .container,
+    body:not(.unlocked) .scattered-hearts {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+
+    body.unlocked .container,
+    body.unlocked .scattered-hearts {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .login-title {
+      font-family: 'Segoe Script', 'Brush Script MT', cursive;
+      font-size: 2rem;
+      color: #c41e3a;
+      margin-bottom: 8px;
+    }
+
+    .login-hint {
+      font-size: 0.95rem;
+      color: #5c4a4a;
+      margin-bottom: 20px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid rgba(196, 30, 58, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: #e91e63;
+    }
+
+    .login-error {
+      color: #c41e3a;
+      font-size: 0.9rem;
+      min-height: 20px;
+      margin-bottom: 12px;
+    }
+
+    .login-btn {
+      padding: 12px 32px;
+      background: linear-gradient(145deg, #e91e63, #c41e3a);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(196, 30, 58, 0.4);
+    }
   </style>
 </head>
 <body>
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <h1 class="login-title">IDENTIFICATE!!!</h1>
+      <p class="login-hint">Ingresa la contraseña para ver tu regalo</p>
+      <input type="password" id="loginPassword" class="login-input" placeholder="Contraseña" autocomplete="off">
+      <p class="login-error" id="loginError"></p>
+      <button type="button" class="login-btn" id="loginBtn">Entrar</button>
+    </div>
+  </div>
   <div class="scattered-hearts" aria-hidden="true">
     <span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span>
     <span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span>
@@ -673,6 +791,32 @@
   </div>
 
   <script>
+    var PASSWORD = 'mi duo dinamico';
+
+    function checkPassword() {
+      var input = document.getElementById('loginPassword');
+      var error = document.getElementById('loginError');
+      var value = (input.value || '').trim().toLowerCase();
+      var expected = PASSWORD.toLowerCase();
+      if (value === expected) {
+        error.textContent = '';
+        var overlay = document.getElementById('loginOverlay');
+        overlay.classList.add('fade-out');
+        document.body.classList.add('unlocked');
+        overlay.addEventListener('transitionend', function onEnd() {
+          overlay.removeEventListener('transitionend', onEnd);
+          overlay.classList.add('hidden');
+        }, { once: true });
+      } else {
+        error.textContent = 'Contraseña incorrecta. Intenta de nuevo.';
+      }
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', checkPassword);
+    document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+
     var countdownEl = document.getElementById('countdown');
     var START_DATE = new Date('2022-05-16');
 
