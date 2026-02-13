@@ -371,6 +371,222 @@
         opacity: 1;
       }
     }
+
+    /* Botón recuerdos */
+    .btn-memories {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 24px;
+      font-family: 'Segoe Script', 'Brush Script MT', cursive;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(145deg, #e91e63, #c41e3a);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+    }
+
+    .btn-memories:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(196, 30, 58, 0.4);
+    }
+
+    /* Timeline overlay */
+    .timeline-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(160deg, #1a0a12 0%, #2d1b2e 40%, #1a1625 100%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px 100px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .timeline-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .timeline-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 20;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .timeline-close:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    .timeline-viewer {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timeline-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out;
+      pointer-events: none;
+    }
+
+    .timeline-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .timeline-frame {
+      padding: 14px;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .timeline-slide img {
+      display: block;
+      max-width: 100%;
+      max-height: 55vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .timeline-slide.active img {
+      animation: kenBurns 2s ease-out forwards;
+    }
+
+    @keyframes kenBurns {
+      from { transform: scale(1.02); }
+      to { transform: scale(1.06); }
+    }
+
+    .timeline-caption {
+      margin-top: 20px;
+      font-family: 'Segoe Script', 'Brush Script MT', cursive;
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.95);
+      text-align: center;
+    }
+
+    .timeline-bar {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(560px, calc(100% - 48px));
+    }
+
+    .timeline-track {
+      position: relative;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+    }
+
+    .timeline-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #e91e63, #f06292);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .timeline-dots {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
+      pointer-events: none;
+    }
+
+    .timeline-dots span {
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .timeline-dots span:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(1.2);
+    }
+
+    .timeline-dots span.active {
+      background: #e91e63;
+      transform: scale(1.5);
+      box-shadow: 0 0 12px rgba(233, 30, 99, 0.6);
+    }
+
+    .timeline-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.75rem;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 15;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .timeline-arrow:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .timeline-arrow.prev { left: 16px; }
+    .timeline-arrow.next { right: 16px; }
+
+    @media (max-width: 640px) {
+      .timeline-overlay { padding: 50px 16px 90px; }
+      .timeline-arrow { width: 40px; height: 40px; font-size: 1.5rem; }
+      .timeline-arrow.prev { left: 8px; }
+      .timeline-arrow.next { right: 8px; }
+      .timeline-bar { bottom: 24px; width: min(560px, calc(100% - 32px)); }
+    }
   </style>
 </head>
 <body>
@@ -395,6 +611,7 @@
             <noscript>
               <p class="countdown-hint">Para ver el contador en vivo, descarga este archivo y ábrelo con Chrome o Safari.</p>
             </noscript>
+            <button type="button" class="btn-memories" id="btnMemories" aria-label="Ver nuestros recuerdos">Nuestros momentos juntos</button>
           </div>
           <div class="tree-column">
             <div class="heart-tree">
@@ -430,6 +647,31 @@
     </div>
   </div>
 
+  <div class="timeline-overlay" id="modalMemories" aria-hidden="true">
+    <button type="button" class="timeline-close" id="btnClose" aria-label="Cerrar">×</button>
+    <div class="timeline-viewer">
+      <div class="timeline-slide active" id="slideA">
+        <div class="timeline-frame">
+          <img src="" alt="Nuestros recuerdos" id="imgA">
+        </div>
+      </div>
+      <div class="timeline-slide" id="slideB">
+        <div class="timeline-frame">
+          <img src="" alt="Nuestros recuerdos" id="imgB">
+        </div>
+      </div>
+    </div>
+    <p class="timeline-caption" id="modalCaption"></p>
+    <div class="timeline-bar">
+      <div class="timeline-track">
+        <div class="timeline-progress" id="timelineProgress"></div>
+        <div class="timeline-dots" id="timelineDots"></div>
+      </div>
+    </div>
+    <button type="button" class="timeline-arrow prev" id="btnPrev" aria-label="Anterior">‹</button>
+    <button type="button" class="timeline-arrow next" id="btnNext" aria-label="Siguiente">›</button>
+  </div>
+
   <script>
     var countdownEl = document.getElementById('countdown');
     var START_DATE = new Date('2022-05-16');
@@ -455,6 +697,197 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    var memoriesData = [
+      { src: 'Imágenes/IMG-20211008-WA0098 1.jpg', caption: 'Octubre 2021' },
+      { src: 'Imágenes/IMG-20211210-WA0010 1.jpg', caption: 'Diciembre 2021' },
+      { src: 'Imágenes/IMG-20211213-WA0041.jpg', caption: 'Diciembre 2021' },
+      { src: 'Imágenes/IMG-20211229-WA0017.jpg', caption: 'Diciembre 2021' },
+      { src: 'Imágenes/IMG-20211230-WA0019.jpg', caption: 'Diciembre 2021' },
+      { src: 'Imágenes/IMG-20220101-WA0051.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220107-WA0001.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0004.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0009.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0015.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0016.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0025.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220111-WA0084.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220119-WA0039.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220122-WA0016.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220122-WA0017.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220122-WA0033.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220122-WA0037.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220124-WA0042.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220124-WA0045.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220124-WA0046.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220124-WA0049.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220128-WA0019.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220131-WA0081.jpg', caption: 'Enero 2022' },
+      { src: 'Imágenes/IMG-20220213-WA0020.jpg', caption: 'Febrero 2022' },
+      { src: 'Imágenes/IMG-20220213-WA0021.jpg', caption: 'Febrero 2022' },
+      { src: 'Imágenes/IMG-20220213-WA0022.jpg', caption: 'Febrero 2022' },
+      { src: 'Imágenes/IMG-20220321-WA0024.jpg', caption: 'Marzo 2022' },
+      { src: 'Imágenes/IMG-20220321-WA0038.jpg', caption: 'Marzo 2022' },
+      { src: 'Imágenes/IMG-20220330-WA0058.jpg', caption: 'Marzo 2022' },
+      { src: 'Imágenes/IMG-20220403-WA0030.jpg', caption: 'Abril 2022' },
+      { src: 'Imágenes/IMG-20220627-WA0025.jpg', caption: 'Junio 2022' },
+      { src: 'Imágenes/IMG-20220627-WA0026.jpg', caption: 'Junio 2022' },
+      { src: 'Imágenes/IMG-20220925-WA0050.jpg', caption: 'Septiembre 2022' },
+      { src: 'Imágenes/IMG-20221125-WA0089.jpg', caption: 'Noviembre 2022' },
+      { src: 'Imágenes/IMG_20221030_204901_701.jpg', caption: 'Octubre 2022' },
+      { src: 'Imágenes/IMG_20221125_214249_455.jpg', caption: 'Noviembre 2022' },
+      { src: 'Imágenes/IMG_20221231_235744_826.jpg', caption: 'Diciembre 2022' },
+      { src: 'Imágenes/IMG_20221231_235800_208.jpg', caption: 'Diciembre 2022' },
+      { src: 'Imágenes/IMG_20230106_192147_825.jpg', caption: 'Enero 2023' },
+      { src: 'Imágenes/IMG_20230210_202255_694.jpg', caption: 'Febrero 2023' },
+      { src: 'Imágenes/IMG_20231021_175611_655.jpg', caption: 'Octubre 2023' },
+      { src: 'Imágenes/IMG_20231021_183023_015.jpg', caption: 'Octubre 2023' },
+      { src: 'Imágenes/20240311_065134.jpg', caption: 'Marzo 2024' },
+      { src: 'Imágenes/20240407_181941.jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240428_154241.jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240428_154346.jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240428_163908.jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240428_163944.jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240428_164014(0).jpg', caption: 'Abril 2024' },
+      { src: 'Imágenes/20240630_115913.jpg', caption: 'Junio 2024' },
+      { src: 'Imágenes/20240630_163903.jpg', caption: 'Junio 2024' },
+      { src: 'Imágenes/20241103_120702.jpg', caption: 'Noviembre 2024' },
+      { src: 'Imágenes/20241201_204353.jpg', caption: 'Diciembre 2024' },
+      { src: 'Imágenes/20250216_102510.jpg', caption: 'Febrero 2025' },
+      { src: 'Imágenes/IMG_0504.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/IMG_0577.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/IMG_1363.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/IMG_1470.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/IMG_1560.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/DSC_2753.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-1165614761.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-1286661554.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-142480774.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-1547863385.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-1637930993.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-1913064817.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-251496605.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-578004901.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-712572460.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-749118769.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/Snapchat-985853110.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/1e4c787b-1a08-422c-8098-a4bfb61c2fd7.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/44C73CFD-7BDD-4C74-8B8B-E875CF0FF08D.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/751DB836-BA91-4061-A8A8-0CD3F4C5690D.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/B77B707D-38D1-4B25-A5CC-28FC7C8A7F04.jpg', caption: 'Recuerdos' },
+      { src: 'Imágenes/D8CB4E7E-5F58-444F-B3C3-3C27E7743E9A.JPG', caption: 'Recuerdos' },
+      { src: 'Imágenes/fcfd0d25-1d1b-4ce5-b907-55b307e95284.jpg', caption: 'Recuerdos' }
+    ];
+
+    var currentIndex = 0;
+    var slideshowInterval;
+    var useSlideA = true;
+    var SLIDE_DURATION = 2000;
+
+    var slideA = document.getElementById('slideA');
+    var slideB = document.getElementById('slideB');
+    var imgA = document.getElementById('imgA');
+    var imgB = document.getElementById('imgB');
+    var modalCaption = document.getElementById('modalCaption');
+    var timelineProgress = document.getElementById('timelineProgress');
+    var timelineDots = document.getElementById('timelineDots');
+
+    function updateTimelineUI() {
+      var pct = memoriesData.length > 0 ? ((currentIndex + 1) / memoriesData.length) * 100 : 0;
+      timelineProgress.style.width = pct + '%';
+      modalCaption.textContent = memoriesData[currentIndex]?.caption || '';
+      var dots = timelineDots.querySelectorAll('span');
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function showSlide(index) {
+      currentIndex = index % memoriesData.length;
+      if (currentIndex < 0) currentIndex += memoriesData.length;
+
+      var data = memoriesData[currentIndex];
+      var nextImg = useSlideA ? imgB : imgA;
+      var nextSlide = useSlideA ? slideB : slideA;
+      var prevSlide = useSlideA ? slideA : slideB;
+
+      nextImg.src = data.src;
+      nextImg.alt = data.caption || 'Nuestros recuerdos';
+      prevSlide.classList.remove('active');
+      nextSlide.classList.add('active');
+      useSlideA = !useSlideA;
+      updateTimelineUI();
+    }
+
+    function goNext() {
+      clearInterval(slideshowInterval);
+      showSlide(currentIndex + 1);
+      slideshowInterval = setInterval(goNext, SLIDE_DURATION);
+    }
+
+    function goPrev() {
+      clearInterval(slideshowInterval);
+      showSlide(currentIndex - 1);
+      slideshowInterval = setInterval(goNext, SLIDE_DURATION);
+    }
+
+    function openMemories() {
+      var modal = document.getElementById('modalMemories');
+      if (!modal || !memoriesData.length) return;
+
+      timelineDots.innerHTML = '';
+      for (var i = 0; i < memoriesData.length; i++) {
+        var dot = document.createElement('span');
+        dot.setAttribute('data-index', i);
+        dot.addEventListener('click', function() {
+          var idx = parseInt(this.getAttribute('data-index'), 10);
+          clearInterval(slideshowInterval);
+          showSlide(idx);
+          slideshowInterval = setInterval(goNext, SLIDE_DURATION);
+        });
+        timelineDots.appendChild(dot);
+      }
+
+      currentIndex = 0;
+      useSlideA = true;
+      imgB.src = '';
+      imgA.src = memoriesData[0].src;
+      imgA.alt = memoriesData[0].caption || 'Nuestros recuerdos';
+      slideB.classList.remove('active');
+      slideA.classList.add('active');
+      updateTimelineUI();
+
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      slideshowInterval = setInterval(goNext, SLIDE_DURATION);
+    }
+
+    function closeMemories() {
+      var modal = document.getElementById('modalMemories');
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      clearInterval(slideshowInterval);
+    }
+
+    document.getElementById('btnMemories')?.addEventListener('click', openMemories);
+    document.getElementById('btnClose')?.addEventListener('click', closeMemories);
+    document.getElementById('modalMemories')?.addEventListener('click', function(e) {
+      if (e.target === this) closeMemories();
+    });
+    document.getElementById('btnPrev')?.addEventListener('click', goPrev);
+    document.getElementById('btnNext')?.addEventListener('click', goNext);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMemories();
+      var modal = document.getElementById('modalMemories');
+      if (modal && modal.classList.contains('active')) {
+        if (e.key === 'ArrowLeft') { goPrev(); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { goNext(); e.preventDefault(); }
+      }
+    });
   </script>
 </body>
 </html>
