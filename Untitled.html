@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Para el amor de mi vida - Nuestro árbol del amor">
+  <title>Para el amor de mi vida</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: linear-gradient(180deg, #faf5f0 0%, #f5ebe0 50%, #ede4db 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.15) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+      50% { transform: translate(6px, -12px) scale(1.05); opacity: 0.75; }
+    }
+
+    /* Scattered decorative hearts */
+    .scattered-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .scattered-hearts span {
+      position: absolute;
+      font-size: 0.75rem;
+      opacity: 0.4;
+      color: #c41e3a;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .scattered-hearts span:nth-child(1) { left: 8%; top: 12%; animation-delay: 0s; }
+    .scattered-hearts span:nth-child(2) { left: 92%; top: 25%; animation-delay: 1.2s; }
+    .scattered-hearts span:nth-child(3) { left: 15%; top: 75%; animation-delay: 0.8s; }
+    .scattered-hearts span:nth-child(4) { left: 85%; top: 65%; animation-delay: 2s; }
+    .scattered-hearts span:nth-child(5) { left: 5%; top: 45%; animation-delay: 1.5s; }
+    .scattered-hearts span:nth-child(6) { left: 88%; top: 88%; animation-delay: 0.5s; }
+    .scattered-hearts span:nth-child(7) { left: 70%; top: 15%; animation-delay: 2.2s; }
+    .scattered-hearts span:nth-child(8) { left: 25%; top: 85%; animation-delay: 1.8s; }
+    .scattered-hearts span:nth-child(9) { left: 95%; top: 50%; animation-delay: 0.3s; }
+    .scattered-hearts span:nth-child(10) { left: 45%; top: 5%; animation-delay: 1s; }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Tarjeta con layout */
+    .tree-phase {
+      display: block;
+      animation: cardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes cardReveal {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 10px 40px rgba(92, 74, 74, 0.12), 0 4px 12px rgba(196, 30, 58, 0.06);
+      border: 1px solid rgba(196, 30, 58, 0.08);
+      overflow: hidden;
+    }
+
+    .card-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) {
+      .card-content {
+        grid-template-columns: 1fr;
+      }
+
+      .tree-column {
+        order: -1;
+      }
+    }
+
+    /* Columna mensaje */
+    .message-column {
+      text-align: left;
+    }
+
+    .headline {
+      font-family: 'Segoe Script', 'Brush Script MT', cursive;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #c41e3a;
+      margin-bottom: 16px;
+    }
+
+    .quote {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #3d2c2e;
+      margin-bottom: 12px;
+    }
+
+    .quote:last-of-type {
+      margin-bottom: 16px;
+    }
+
+    .iloveyou {
+      font-family: 'Segoe Script', 'Brush Script MT', cursive;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: #e91e63;
+      margin-bottom: 24px;
+    }
+
+    .countdown-intro {
+      font-size: 0.9rem;
+      color: #5c4a4a;
+      margin-bottom: 8px;
+    }
+
+    .countdown-hint {
+      font-size: 0.85rem;
+      color: #8b7355;
+      margin-top: 12px;
+      padding: 12px;
+      background: #faf5f0;
+      border-radius: 10px;
+      border: 1px dashed rgba(196, 30, 58, 0.2);
+    }
+
+    .countdown {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #c41e3a;
+      letter-spacing: 0.5px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Columna árbol de corazones */
+    .tree-column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .heart-tree {
+      position: relative;
+      width: 220px;
+      height: 260px;
+    }
+
+    .trunk {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 75px;
+      background: linear-gradient(90deg, #4e342e 0%, #5d4037 30%, #6d4c41 50%, #8d6e63 100%);
+      border-radius: 6px 6px 4px 4px;
+      box-shadow: inset -3px 0 6px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .trunk::before {
+      content: '';
+      position: absolute;
+      bottom: 50%;
+      left: -8px;
+      width: 12px;
+      height: 3px;
+      background: #5d4037;
+      border-radius: 2px;
+      transform: rotate(-20deg);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .trunk::after {
+      content: '';
+      position: absolute;
+      bottom: 35%;
+      right: -8px;
+      width: 10px;
+      height: 3px;
+      background: #5d4037;
+      border-radius: 2px;
+      transform: rotate(20deg);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .hearts-cluster {
+      position: absolute;
+      bottom: 55px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 180px;
+    }
+
+    .mini-heart {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      animation: heartPulse 2.5s ease-in-out infinite;
+    }
+
+    .mini-heart::before,
+    .mini-heart::after {
+      content: '';
+      position: absolute;
+      width: 9px;
+      height: 14px;
+      border-radius: 9px 9px 0 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .mini-heart::before {
+      left: 0;
+      transform: rotate(-45deg);
+      transform-origin: 100% 100%;
+    }
+
+    .mini-heart::after {
+      right: 0;
+      transform: rotate(45deg);
+      transform-origin: 0% 100%;
+    }
+
+    /* Forma de corazón: copa densa con silueta definida */
+    .mini-heart.h1  { left: 38%; top: 0%; }
+    .mini-heart.h2  { left: 45%; top: 0%; }
+    .mini-heart.h3  { left: 52%; top: 0%; }
+    .mini-heart.h4  { left: 25%; top: 8%; }
+    .mini-heart.h5  { left: 32%; top: 5%; }
+    .mini-heart.h6  { left: 42%; top: 6%; }
+    .mini-heart.h7  { left: 52%; top: 6%; }
+    .mini-heart.h8  { left: 62%; top: 5%; }
+    .mini-heart.h9  { left: 75%; top: 8%; }
+    .mini-heart.h10 { left: 18%; top: 18%; }
+    .mini-heart.h11 { left: 28%; top: 15%; }
+    .mini-heart.h12 { left: 38%; top: 16%; }
+    .mini-heart.h13 { left: 48%; top: 14%; }
+    .mini-heart.h14 { left: 58%; top: 16%; }
+    .mini-heart.h15 { left: 68%; top: 15%; }
+    .mini-heart.h16 { left: 82%; top: 18%; }
+    .mini-heart.h17 { left: 12%; top: 28%; }
+    .mini-heart.h18 { left: 22%; top: 25%; }
+    .mini-heart.h19 { left: 32%; top: 26%; }
+    .mini-heart.h20 { left: 42%; top: 24%; }
+    .mini-heart.h21 { left: 52%; top: 24%; }
+    .mini-heart.h22 { left: 62%; top: 26%; }
+    .mini-heart.h23 { left: 72%; top: 25%; }
+    .mini-heart.h24 { left: 82%; top: 28%; }
+    .mini-heart.h25 { left: 18%; top: 38%; }
+    .mini-heart.h26 { left: 28%; top: 36%; }
+    .mini-heart.h27 { left: 38%; top: 35%; }
+    .mini-heart.h28 { left: 48%; top: 34%; }
+    .mini-heart.h29 { left: 58%; top: 35%; }
+    .mini-heart.h30 { left: 68%; top: 36%; }
+    .mini-heart.h31 { left: 78%; top: 38%; }
+    .mini-heart.h32 { left: 25%; top: 48%; }
+    .mini-heart.h33 { left: 35%; top: 46%; }
+    .mini-heart.h34 { left: 45%; top: 45%; }
+    .mini-heart.h35 { left: 55%; top: 45%; }
+    .mini-heart.h36 { left: 65%; top: 46%; }
+    .mini-heart.h37 { left: 75%; top: 48%; }
+    .mini-heart.h38 { left: 32%; top: 56%; }
+    .mini-heart.h39 { left: 42%; top: 54%; }
+    .mini-heart.h40 { left: 52%; top: 54%; }
+    .mini-heart.h41 { left: 62%; top: 56%; }
+    .mini-heart.h42 { left: 38%; top: 64%; }
+    .mini-heart.h43 { left: 48%; top: 62%; }
+    .mini-heart.h44 { left: 58%; top: 64%; }
+    .mini-heart.h45 { left: 45%; top: 72%; }
+    .mini-heart.h46 { left: 55%; top: 72%; }
+    .mini-heart.h47 { left: 50%; top: 82%; }
+
+    .mini-heart.c1::before, .mini-heart.c1::after { background: linear-gradient(145deg, #ff4081, #e91e63); }
+    .mini-heart.c2::before, .mini-heart.c2::after { background: linear-gradient(145deg, #e91e63, #c41e3a); }
+    .mini-heart.c3::before, .mini-heart.c3::after { background: linear-gradient(145deg, #f06292, #ec407a); }
+    .mini-heart.c4::before, .mini-heart.c4::after { background: linear-gradient(145deg, #d81b60, #ad1457); }
+    .mini-heart.c5::before, .mini-heart.c5::after { background: linear-gradient(145deg, #ec407a, #e91e63); }
+
+    .mini-heart:nth-child(3n) { animation-delay: 0.3s; }
+    .mini-heart:nth-child(5n) { animation-delay: 0.6s; }
+    .mini-heart:nth-child(7n) { animation-delay: 0.9s; }
+    .mini-heart:nth-child(11n) { animation-delay: 1.2s; }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.12); opacity: 0.95; }
+    }
+
+    .heart-tree-floating {
+      position: absolute;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      animation: floatAround 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .heart-tree-floating.f1 { top: 10%; left: -5%; animation-delay: 0s; }
+    .heart-tree-floating.f2 { top: 60%; left: -8%; animation-delay: 1s; }
+    .heart-tree-floating.f3 { top: 25%; right: -5%; animation-delay: 0.5s; }
+    .heart-tree-floating.f4 { top: 75%; right: -8%; animation-delay: 1.5s; }
+    .heart-tree-floating.f5 { top: 0%; right: 15%; animation-delay: 0.8s; }
+    .heart-tree-floating.f6 { bottom: 5%; left: 10%; animation-delay: 1.2s; }
+
+    @keyframes floatAround {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.15); }
+    }
+
+    .heart-tree {
+      animation: growTree 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes growTree {
+      from {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scattered-hearts" aria-hidden="true">
+    <span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span>
+    <span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span>
+  </div>
+
+  <div class="container">
+    <div class="tree-phase visible" id="treePhase">
+      <div class="card">
+        <div class="card-content">
+          <div class="message-column">
+            <p class="headline">Para el amor de mi vida:</p>
+            <p class="quote">Desde que llegaste a mi vida, cada día tiene más color, más sentido y más amor.
+              No necesito un día especial para recordarte lo mucho que te amo, pero hoy quiero decirte que eres mi San Valentín más hermosa, mi lugar favorito y mi casualidad más bonita.
+              Gracias por existir, por hacerme sonreír y por caminar a mi lado.
+              Te amo hoy, mañana y todos los días que vengan.</p>
+            <p class="iloveyou">Eres mi casualidad más bonita… y mi San Valentín para toda la vida ❤️</p>
+            <p class="countdown-intro">Mi amor por ti comenzó hace...</p>
+            <div class="countdown" id="countdown">Desde el 16 de mayo de 2022 ❤️</div>
+            <noscript>
+              <p class="countdown-hint">Para ver el contador en vivo, descarga este archivo y ábrelo con Chrome o Safari.</p>
+            </noscript>
+          </div>
+          <div class="tree-column">
+            <div class="heart-tree">
+              <span class="heart-tree-floating f1">💕</span>
+              <span class="heart-tree-floating f2">❤️</span>
+              <span class="heart-tree-floating f3">💗</span>
+              <span class="heart-tree-floating f4">💕</span>
+              <span class="heart-tree-floating f5">❤️</span>
+              <span class="heart-tree-floating f6">💗</span>
+              <div class="hearts-cluster">
+                <div class="mini-heart h1 c1"></div><div class="mini-heart h2 c2"></div><div class="mini-heart h3 c3"></div>
+                <div class="mini-heart h4 c4"></div><div class="mini-heart h5 c5"></div><div class="mini-heart h6 c1"></div>
+                <div class="mini-heart h7 c2"></div><div class="mini-heart h8 c3"></div><div class="mini-heart h9 c4"></div>
+                <div class="mini-heart h10 c5"></div><div class="mini-heart h11 c1"></div><div class="mini-heart h12 c2"></div>
+                <div class="mini-heart h13 c3"></div><div class="mini-heart h14 c4"></div><div class="mini-heart h15 c5"></div>
+                <div class="mini-heart h16 c1"></div><div class="mini-heart h17 c2"></div><div class="mini-heart h18 c3"></div>
+                <div class="mini-heart h19 c4"></div><div class="mini-heart h20 c5"></div><div class="mini-heart h21 c1"></div>
+                <div class="mini-heart h22 c2"></div><div class="mini-heart h23 c3"></div><div class="mini-heart h24 c4"></div>
+                <div class="mini-heart h25 c5"></div><div class="mini-heart h26 c1"></div><div class="mini-heart h27 c2"></div>
+                <div class="mini-heart h28 c3"></div><div class="mini-heart h29 c4"></div><div class="mini-heart h30 c5"></div>
+                <div class="mini-heart h31 c1"></div><div class="mini-heart h32 c2"></div><div class="mini-heart h33 c3"></div>
+                <div class="mini-heart h34 c4"></div><div class="mini-heart h35 c5"></div><div class="mini-heart h36 c1"></div>
+                <div class="mini-heart h37 c2"></div><div class="mini-heart h38 c3"></div><div class="mini-heart h39 c4"></div>
+                <div class="mini-heart h40 c5"></div><div class="mini-heart h41 c1"></div><div class="mini-heart h42 c2"></div>
+                <div class="mini-heart h43 c3"></div><div class="mini-heart h44 c4"></div><div class="mini-heart h45 c5"></div>
+                <div class="mini-heart h46 c1"></div><div class="mini-heart h47 c2"></div>
+              </div>
+              <div class="trunk"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var countdownEl = document.getElementById('countdown');
+    var START_DATE = new Date('2022-05-16');
+
+    function pad(n) {
+      return n < 10 ? '0' + n : String(n);
+    }
+
+    function updateCountdown() {
+      if (!countdownEl) return;
+      var now = new Date();
+      if (now < START_DATE) {
+        countdownEl.textContent = '0 días 00 horas 00 minutos 00 segundos';
+        return;
+      }
+      var diff = now - START_DATE;
+      var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      countdownEl.textContent = days + ' días ' + pad(hours) + ' horas ' + pad(minutes) + ' minutos ' + pad(seconds) + ' segundos';
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
